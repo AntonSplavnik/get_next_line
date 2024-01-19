@@ -6,7 +6,7 @@
 /*   By: asplavni <asplavni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:04:42 by asplavni          #+#    #+#             */
-/*   Updated: 2024/01/17 17:39:25 by asplavni         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:19:26 by asplavni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,32 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_memcpy(new + s1_len, s2, s2_len + 1);
 	free((char *)s1);
 	return (new);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t		i;
+	size_t		src_len;
+	const char	*ptr;
+
+	i = 0;
+	ptr = src;
+	src_len = 0;
+	while (*src)
+	{
+		src_len++;
+		src++;
+	}
+	if (size == 0)
+		return (src_len);
+	src = ptr;
+	while (i < size - 1 && i < src_len)
+	{
+		*dst = *src;
+		i++;
+		src++;
+		dst++;
+	}
+	*dst = '\0';
+	return (src_len);
 }
