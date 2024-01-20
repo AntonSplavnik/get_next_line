@@ -6,17 +6,13 @@
 /*   By: asplavni <asplavni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:16:20 by asplavni          #+#    #+#             */
-/*   Updated: 2024/01/20 19:22:07 by asplavni         ###   ########.fr       */
+/*   Updated: 2024/01/20 20:09:25 by asplavni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-	// void	clean_stash();
-
-	// void	extract_line();
-
-char	*read_and_stash(char *stash_on_heap, int fd)
+char	*read_and_stash(char *stash, int fd)
 {
 	char	*buff;
 	int		rd_bytes;
@@ -25,7 +21,7 @@ char	*read_and_stash(char *stash_on_heap, int fd)
 	if (!buff)
 		return (NULL);
 	rd_bytes = 1;
-	while (ft_strchr(stash_on_heap, '\n') != '\n' && rd_bytes != '\0')
+	while (!ft_strchr(stash, '\n') && rd_bytes != '\0')
 	{
 		rd_bytes = read(fd, buff, BUFFER_SIZE);
 		if (rd_bytes == -1)
@@ -34,23 +30,23 @@ char	*read_and_stash(char *stash_on_heap, int fd)
 			return (NULL);
 		}
 		buff[rd_bytes] = '\0';
-		stash_on_heap = ft_strjoin(stash_on_heap, buff);
+		stash = ft_strjoin(stash, buff);
 	}
 	free(buff);
-	return (stash_on_heap);
+	return (stash);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line_to_show;
-	static char	*stash_on_heap;
+	static char	*stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	stash_on_heap = read_and_stash(stash_on_heap, fd);
-	if (!stash_on_heap)
+	stash = read_and_stash(stash, fd);
+	if (!stash)
 		return (NULL);
-	line_to_show = extract_line(stash_on_heap);
-	stash_on_heap = clean_stash(stash_on_heap);
-	return (0);
+	line_to_show = extract_line(stash);
+	stash = clean_stash(stash);
+	return (line_to_show);
 }
