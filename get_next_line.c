@@ -6,7 +6,7 @@
 /*   By: asplavni <asplavni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:16:20 by asplavni          #+#    #+#             */
-/*   Updated: 2024/01/20 20:09:25 by asplavni         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:20:40 by asplavni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_next_line(int fd)
 	char		*line_to_show;
 	static char	*stash;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (0);
 	stash = read_and_stash(stash, fd);
 	if (!stash)
@@ -50,3 +50,43 @@ char	*get_next_line(int fd)
 	stash = clean_stash(stash);
 	return (line_to_show);
 }
+
+// int	main(int argc, char **argv)
+// {
+// 	int		fd = open(argv[1], O_RDWR);
+// 	char	*test_result = get_next_line(fd);
+// 	printf("Result: %s\n", test_result);
+
+// 	int		fd2 = open(argv[1], O_RDWR);
+// 	printf("Result: %s\n", test_result);
+
+// 	return (0);
+// }
+
+// #include <stdio.h>
+// #include <unistd.h>
+// int	main(int argc, char **argv)
+// {
+// 	int		file;
+// 	char	*temp;
+// 	int		fd;
+
+// 	(void)argc;
+// 	file = open(argv[1], O_RDWR);
+// 	//fd = open(argv[2], O_RDWR);
+
+// 	temp = get_next_line(file);
+// 	printf("%s\n", temp);
+// 	temp = get_next_line(file);
+// 	printf("%s\n", temp);
+// 	temp = get_next_line(file);
+// 	printf("%s\n", temp);
+// 	temp = get_next_line(fd);
+// 	printf("%s\n", temp);
+// 	temp = get_next_line(file);
+// 	printf("%s\n", temp);
+// 	temp = get_next_line(file);
+// 	printf("%s\n", temp);
+// 	free(temp);
+// 	close(file);
+// }
